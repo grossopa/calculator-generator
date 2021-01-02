@@ -13,10 +13,21 @@ export default class IteratedGen {
         let remain = answer
         let result = new CompositeFormula(answer) 
         for (let i = 0; i < round; i++) {
-            let formula = this.generator.generateAdd(remain, remain, min)
+            let selectedOperator = Random.select(Operator.values)
+            var formula
+            console.log(selectedOperator)
+            if (selectedOperator === Operator.ADD) {
+                formula = this.generator.generateAdd(remain, remain, min)
+            } else if (selectedOperator === Operator.MINUS) {
+                formula = this.generator.generateMinus(remain, remain, max)
+            }
+            console.log('itergen', formula)
+            
             result.unshift(formula)
             remain = formula.left
         } 
+
+        console.log('itergen', result, answer)
 
         return result
     }

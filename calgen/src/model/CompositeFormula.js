@@ -11,7 +11,7 @@ export default class CompositeFormula {
     }
 
     toDisplayString(fillBlank) {
-        let blank = '_________'
+        let blank = '___'
         let randomBlank = -1
         if (fillBlank) {
             randomBlank = parseInt(Math.floor(Math.random() * (this.children.length + 2)))
@@ -24,9 +24,11 @@ export default class CompositeFormula {
             arr.push(child.operator.value)
             arr.push(randomBlank === i + 1 ? blank : child.right)
         }
-
+        
         arr.push('=')
         arr.push(randomBlank === this.children.length + 1 ? blank : this.answer)
+
+        console.log(arr, arr.join(' '))
 
 
         return arr.join(' ');

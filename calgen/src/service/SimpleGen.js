@@ -9,5 +9,11 @@ export default class SimpleGen {
         let left = Random.integer(leftMin, answer)
         return new SimpleFormula(left, Operator.ADD, answer - left, answer)
     }
+
+    generateMinus = (answerMin, answerMax, leftMax) => {
+        let answer = Random.integer(answerMin, answerMax)
+        let left = Random.integer(answer, leftMax)
+        return new SimpleFormula(left, Operator.MINUS, left - answer, answer)
+    }
     
 }
