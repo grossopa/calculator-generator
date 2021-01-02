@@ -1,8 +1,7 @@
-import * as Random from 'util/Random.js'
-import SimpleFormula from 'model/SimpleFormula'
-import * as Operator from 'model/Operator'
-import SimpleGen from './SimpleGen'
 import CompositeFormula from 'model/CompositeFormula';
+import * as Operator from 'model/Operator';
+import * as Random from 'util/Random.js';
+import SimpleGen from './SimpleGen';
 
 export default class IteratedGen {
 

@@ -1,33 +1,32 @@
-import logo from './logo.svg';
+import HeaderView from 'calc/view/HeaderView';
+import QuestionTitleView from 'calc/view/QuestionTitleView';
+import QuestionView from 'calc/view/QuestionView';
+import React from 'react';
+import { Provider } from 'react-redux';
+import {
+  BrowserRouter as Router
+} from "react-router-dom";
+import { applyMiddleware, createStore } from 'redux';
+import { createLogger } from 'redux-logger';
 import './App.css';
-import SimpleGen from 'service/SimpleGen';
-import IteratedGen from 'service/IteratedGen'
-import HeaderView from 'view/HeaderView'
-import QuestionView from 'view/QuestionView'
+import reducer from './app/reducers';
 
-let gen = new SimpleGen();
-let iterGen = new IteratedGen();
+const logger = createLogger({});
+
+const store = createStore(reducer, applyMiddleware(logger))
 
 function App() {
-
-  let questions = []
-  for (let i = 0; i < 10; i++) {
-    questions.push([
-      iterGen.generate(0, 20, 2).toDisplayString(true),
-      iterGen.generate(0, 20, 2).toDisplayString(true),
-      iterGen.generate(0, 20, 2).toDisplayString(true),
-      iterGen.generate(0, 20, 2).toDisplayString(true)
-    ])
-  }
-  
   return (
-    
-    <div className="App">
-      <HeaderView />
-      <QuestionView />
-      
-    </div>
-  ); 
+    <Router>
+      <Provider store={store}>
+        <div className="App">
+          <HeaderView />
+          <QuestionTitleView />
+          <QuestionView />
+        </div>
+      </Provider>
+    </Router>
+  );
 }
 
 export default App;

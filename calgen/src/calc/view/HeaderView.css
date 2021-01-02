@@ -1,0 +1,51 @@
+@media print {
+    .options-cont {
+        display:none;
+    }
+  
+}
+
+.options-cont {
+    width: 50em;
+    margin: 0 auto;
+}
+
+.options-cont label {
+    text-align: left;
+    margin-right : 1.5em;
+    width: 200em;
+}
+
+.options-table {
+    text-align: left;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.gen-button {
+	box-shadow:inset 0px 1px 0px 0px #caefab;
+	background:linear-gradient(to bottom, #77d42a 5%, #5cb811 100%);
+	background-color:#77d42a;
+	border-radius:6px;
+	border:1px solid #268a16;
+	display:inline-block;
+	cursor:pointer;
+	color:#306108;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+    text-shadow:0px 1px 0px #aade7c;
+    width: 12em;
+}
+.gen-button:hover {
+	background:linear-gradient(to bottom, #5cb811 5%, #77d42a 100%);
+	background-color:#5cb811;
+}
+.gen-button:active {
+	position:relative;
+	top:1px;
+}
+
+        
