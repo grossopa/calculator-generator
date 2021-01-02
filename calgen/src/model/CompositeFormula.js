@@ -27,10 +27,6 @@ export default class CompositeFormula {
         
         arr.push('=')
         arr.push(randomBlank === this.children.length + 1 ? blank : this.answer)
-
-        console.log(arr, arr.join(' '))
-
-
         return arr.join(' ');
     }
     

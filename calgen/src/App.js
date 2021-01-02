@@ -2,6 +2,8 @@ import logo from './logo.svg';
 import './App.css';
 import SimpleGen from 'service/SimpleGen';
 import IteratedGen from 'service/IteratedGen'
+import HeaderView from 'view/HeaderView'
+import QuestionView from 'view/QuestionView'
 
 let gen = new SimpleGen();
 let iterGen = new IteratedGen();
@@ -21,24 +23,8 @@ function App() {
   return (
     
     <div className="App">
-      <header className="App-header">
-        
-        
-      <table style={{width : '100%'}}>
-      {questions.map(q => 
-          <tr>
-          <td>{q[0]}<br />&nbsp;</td>
-          <td>{q[1]}<br />&nbsp;</td>
-          <td>{q[2]}<br />&nbsp;</td>
-          {/* <td>{q[3]}<br />&nbsp;</td> */}
-          </tr>
-        )}
-     
-
-      </table>
-      
-        
-      </header>
+      <HeaderView />
+      <QuestionView />
       
     </div>
   ); 
