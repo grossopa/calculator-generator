@@ -13,7 +13,9 @@
 .options-cont label {
     text-align: left;
     margin-right : 1.5em;
-    width: 200em;
+	width: 6em;
+	display:inline-block;
+	
 }
 
 .options-table {
