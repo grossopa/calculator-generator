@@ -5,7 +5,8 @@ export const calcReducer = (state = {
     rangeMin: 0,
     rangeMax: 20,
     numberCount: 2,
-    count: 50
+    count: 50,
+    blank: 2
 }, action) => {
     switch (action.type) {
         case Consts.UPDATE_SETTINGS:

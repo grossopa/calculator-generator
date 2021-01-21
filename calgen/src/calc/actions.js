@@ -18,7 +18,7 @@ export const updateSettings = (newValue) => {
     return { type: Consts.UPDATE_SETTINGS, value: newValue }
 }
 
-export const generateQuestions = (questionType, rangeMin, rangeMax, numberCount, count) => {
+export const generateQuestions = (questionType, rangeMin, rangeMax, numberCount, count, blank) => {
     const operators = []
     if ((questionType & 0x01) !== 0) {
         operators.push(Operator.ADD)
@@ -34,7 +34,11 @@ export const generateQuestions = (questionType, rangeMin, rangeMax, numberCount,
         if (i % 3 === 0) {
             questions[index] = []
         }
-        questions[index].push(iteratedGen.generate(rangeMin, rangeMax, numberCount - 1, operators).toDisplayString(true))
+        questions[index].push(iteratedGen.generate(rangeMin, rangeMax, numberCount - 1, operators).toDisplayString(blank))
     }
     return { type: Consts.GENERATE_QUESTIONS, questions: questions }
+}
+
+export const getQueryParamsUrl = (questionType, rangeMin, rangeMax, numberCount, count, blank) => {
+    return `?questionType=${questionType}&rangeMin=${rangeMin}&rangeMax=${rangeMax}&numberCount=${numberCount}&count=${count}&blank=${blank}`
 }

@@ -4,9 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import './HeaderView.css'
 
-const getQueryParamsUrl = (questionType, rangeMin, rangeMax, numberCount, count) => {
-    return `?questionType=${questionType}&rangeMin=${rangeMin}&rangeMax=${rangeMax}&numberCount=${numberCount}&count=${count}`
-}
+
 
 function OnLoad() {
     const dispatch = useDispatch()
@@ -25,6 +23,7 @@ function HeaderView() {
     const rangeMax = useSelector(state => state.calcReducer.rangeMax)
     const numberCount = useSelector(state => state.calcReducer.numberCount)
     const count = useSelector(state => state.calcReducer.count)
+    const blank = useSelector(state => state.calcReducer.blank)
 
     return (
         <section className="options-cont">
@@ -39,7 +38,7 @@ function HeaderView() {
                                 onChange={event => {
                                     const val = parseInt(event.target.value)
                                     dispatch(actions.updateSettings({ questionType: val }))
-                                    history.push(getQueryParamsUrl(val, rangeMin, rangeMax, numberCount, count))
+                                    history.push(actions.getQueryParamsUrl(val, rangeMin, rangeMax, numberCount, count, blank))
                                 }}>
                                 <option value={0}>请选择...</option>
                                 <option value={0x01}>仅加法</option>
@@ -52,7 +51,7 @@ function HeaderView() {
                             <select value={numberCount} onChange={event => {
                                 const val = parseInt(event.target.value)
                                 dispatch(actions.updateSettings({ numberCount: val }))
-                                history.push(getQueryParamsUrl(questionType, rangeMin, rangeMax, val, count))
+                                history.push(actions.getQueryParamsUrl(questionType, rangeMin, rangeMax, val, count, blank))
                             }} >
                                 <option value={2}>2 (a + b = z)</option>
                                 <option value={3}>3 (a + b + c = z)</option>
@@ -68,14 +67,14 @@ function HeaderView() {
                                 onChange={event => {
                                     const val = parseInt(event.target.value)
                                     dispatch(actions.updateSettings({ rangeMin: val }))
-                                    history.push(getQueryParamsUrl(questionType, val, rangeMax, numberCount, count))
+                                    history.push(actions.getQueryParamsUrl(questionType, val, rangeMax, numberCount, count, blank))
                                 }} />
                             <span>~</span>
                             <input type="number" min={rangeMin} max={100000} value={rangeMax}
                                 onChange={event => {
                                     const val = parseInt(event.target.value)
                                     dispatch(actions.updateSettings({ rangeMax: val }))
-                                    history.push(getQueryParamsUrl(questionType, rangeMin, val, numberCount, count))
+                                    history.push(actions.getQueryParamsUrl(questionType, rangeMin, val, numberCount, count, blank))
                                 }} />
                         </td>
                         <td>
@@ -84,14 +83,31 @@ function HeaderView() {
                                 onChange={event => {
                                     const val = parseInt(event.target.value)
                                     dispatch(actions.updateSettings({ count: val }))
-                                    history.push(getQueryParamsUrl(questionType, rangeMin, rangeMax, numberCount, val))
+                                    history.push(actions.getQueryParamsUrl(questionType, rangeMin, rangeMax, numberCount, val, blank))
                                 }
                                 } value={count} />
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <label>填空位置</label>
+                            <select value={blank} onChange={event => {
+                                const val = parseInt(event.target.value)
+                                dispatch(actions.updateSettings({ blank: val }))
+                                history.push(actions.getQueryParamsUrl(questionType, rangeMin, rangeMax, numberCount, count, val))
+                            }} >
+                                <option value="1">仅右边</option>
+                                <option value="2">仅左边</option>
+                                <option value="3">两边</option>
+                            </select>
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
                 </tbody>
             </table>
-            <button className="gen-button" onClick={() => dispatch(actions.generateQuestions(questionType, rangeMin, rangeMax, numberCount, count))}>生成</button>
+            <button className="gen-button" onClick={() => dispatch(actions.generateQuestions(questionType, rangeMin, rangeMax, numberCount, count, blank))}>生成</button>
         </section>
     )
 }

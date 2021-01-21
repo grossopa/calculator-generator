@@ -1,5 +1,5 @@
 export default class CompositeFormula {
-    
+
     children = []
     answer
     constructor(answer) {
@@ -13,8 +13,12 @@ export default class CompositeFormula {
     toDisplayString(fillBlank) {
         let blank = '___'
         let randomBlank = -1
-        if (fillBlank) {
+        if (fillBlank === 3) { // both
             randomBlank = parseInt(Math.floor(Math.random() * (this.children.length + 2)))
+        } else if (fillBlank === 2) { // left
+            randomBlank = parseInt(Math.floor(Math.random() * (this.children.length + 1)))
+        } else { // right
+            randomBlank = this.children.length + 1
         }
 
         let arr = []
@@ -24,10 +28,10 @@ export default class CompositeFormula {
             arr.push(child.operator.value)
             arr.push(randomBlank === i + 1 ? blank : child.right)
         }
-        
+
         arr.push('=')
         arr.push(randomBlank === this.children.length + 1 ? blank : this.answer)
         return arr.join('');
     }
-    
+
 }
