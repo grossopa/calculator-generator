@@ -79,9 +79,13 @@ function HeaderView() {
                         </td>
                         <td>
                             <label>题目数量</label>
-                            <input type="text" min={0} max={2000}
+                            <input type="text" min={1} max={2000}
                                 onChange={event => {
                                     const val = parseInt(event.target.value)
+                                    if (!val) {
+                                        val = 1
+                                    }
+                                    val = Math.min(2000, val)
                                     dispatch(actions.updateSettings({ count: val }))
                                     history.push(actions.getQueryParamsUrl(questionType, rangeMin, rangeMax, numberCount, val, blank))
                                 }

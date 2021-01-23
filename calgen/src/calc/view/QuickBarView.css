@@ -1,3 +1,9 @@
+@media print {
+    .quickbar-cont {
+        display:none;
+    }
+}
+
 .quickbar-btn {
     margin: 2px;
 }
