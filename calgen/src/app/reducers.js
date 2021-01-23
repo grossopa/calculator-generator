@@ -2,7 +2,7 @@ import { calcReducer } from 'calc/reducer'
 import { combineReducers } from 'redux'
 
 const rootReducer = combineReducers({
-    calcReducer
+  calcReducer
 })
 
 export default rootReducer

@@ -1,12 +1,12 @@
 import * as Consts from 'calc/consts'
 
 export const calcReducer = (state = {
-    questionType: 1,
-    rangeMin: 0,
-    rangeMax: 20,
-    numberCount: 2,
-    count: 50,
-    blank: 2
+  questionType: 1,
+  rangeMin: 0,
+  rangeMax: 20,
+  numberCount: 2,
+  count: 50,
+  blank: 2
 }, action) => {
     switch (action.type) {
         case Consts.UPDATE_SETTINGS:

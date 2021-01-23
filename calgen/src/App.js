@@ -1,3 +1,4 @@
+import LayoutHeaderView from 'layout/view/LayoutHeaderView';
 import HeaderView from 'calc/view/HeaderView';
 import QuestionTitleView from 'calc/view/QuestionTitleView';
 import QuestionView from 'calc/view/QuestionView';
@@ -21,6 +22,7 @@ function App() {
     <Router>
       <Provider store={store}>
         <div className="App">
+          <LayoutHeaderView />
           <HeaderView />
           <QuickBarView />
           <QuestionTitleView />
