@@ -1,3 +1,7 @@
+.question-title-cont {
+  text-align: center;
+}
+
 .question-title-underscore {
   border-bottom: 1px black solid;
   display: inline-block;

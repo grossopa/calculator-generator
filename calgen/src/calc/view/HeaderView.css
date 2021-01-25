@@ -1,25 +1,20 @@
-@media print {
-  .options-cont {
-    display: none;
-  }
-}
-
 .options-cont {
   width: 50em;
   margin: 0 auto;
 }
 
-.options-cont label {
+.options-table label {
   text-align: left;
   margin-right: 1.5em;
-  width: 6em;
+  width: 5em;
   display: inline-block;
 }
 
 .options-table {
   text-align: left;
-  width: 100%;
   margin-bottom: 20px;
+  margin-top: 20px;
+  width: 600px;
 }
 
 .gen-button {

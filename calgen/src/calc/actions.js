@@ -39,6 +39,7 @@ export const generateQuestions = (questionType, rangeMin, rangeMax, numberCount,
   return { type: Consts.GENERATE_QUESTIONS, questions: questions }
 }
 
-export const getQueryParamsUrl = (questionType, rangeMin, rangeMax, numberCount, count, blank) => {
+export const getQueryParamsUrl = params => {
+  const { questionType, rangeMin, rangeMax, numberCount, count, blank } = params
   return `?questionType=${questionType}&rangeMin=${rangeMin}&rangeMax=${rangeMax}&numberCount=${numberCount}&count=${count}&blank=${blank}`
 }

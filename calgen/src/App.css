@@ -1,7 +1,3 @@
-.App {
-  text-align: center;
-}
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -10,6 +6,24 @@
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+@media print {
+  .noprint {
+    display: none !important;
+  }
+
+  .question-pager {
+    padding: 0 !important;
+    border: none !important;
+    width: auto !important;
+    box-shadow: none !important;
+    width: 27cm !important;
+  }
+
+  .question-cont {
+    width: 27cm !important;
   }
 }
 
@@ -28,11 +42,12 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.main-cont {
+  margin-top: 20px;
+}
+
+.question-pager {
+  padding: 20px;
+  width: 80%;
+  margin: 0 auto;
 }

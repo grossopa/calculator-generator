@@ -1,8 +1,8 @@
-import React from 'react';
 import * as actions from 'calc/actions';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
-import './QuickBarView.css'
+import './QuickBarView.css';
 
 function QuickBarView() {
 
@@ -20,12 +20,11 @@ function QuickBarView() {
     { label: "100以内加减法(两边）", options: { questionType: 17, rangeMin: 0, rangeMax: 100, numberCount: 2, count: 50, blank: 3 } }
   ]
   return (
-    <section className='quickbar-cont'>
+    <section className='quickbar-cont noprint'>
       {buttons.map(b =>
         <button key={b.label} className='quickbar-btn' onClick={() => {
           dispatch(actions.updateSettings(b.options))
-          history.push(actions.getQueryParamsUrl(b.options.questionType, b.options.rangeMin, b.options.rangeMax,
-            b.options.numberCount, b.options.count, b.options.blank))
+          history.push(actions.getQueryParamsUrl(b.options))
           dispatch(actions.generateQuestions(b.options.questionType, b.options.rangeMin, b.options.rangeMax,
             b.options.numberCount, b.options.count, b.options.blank))
         }}>{b.label}</button>
