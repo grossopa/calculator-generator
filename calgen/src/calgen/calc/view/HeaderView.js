@@ -1,4 +1,4 @@
-import { FormControlLabel, FormLabel, Grid, MenuItem, Radio, RadioGroup, TextField, Typography } from '@material-ui/core';
+import { FormControlLabel, FormLabel, Grid, MenuItem, Radio, RadioGroup, Switch, TextField, Typography } from '@material-ui/core';
 import Select from '@material-ui/core/Select';
 import * as actions from 'calgen/calc/actions';
 import React, { useEffect } from 'react';
@@ -26,6 +26,7 @@ function HeaderView() {
   const numberCount = useSelector(state => state.calcReducer.numberCount)
   const count = useSelector(state => state.calcReducer.count)
   const blank = useSelector(state => state.calcReducer.blank)
+  const brackets = useSelector(state => state.calcReducer.brackets)
 
   const settings = {
     questionType: questionType,
@@ -33,7 +34,8 @@ function HeaderView() {
     rangeMax: rangeMax,
     numberCount: numberCount,
     count: count,
-    blank: blank
+    blank: blank,
+    brackets: brackets
   }
 
   const doUpdate = newVal => {
@@ -100,8 +102,14 @@ function HeaderView() {
             <FormControlLabel value={3} control={<Radio color="primary" />} label="两边" />
           </RadioGroup>
         </Grid>
+        <Grid item xs={2} container direction="row" justify="flex-end">
+          <FormLabel>包含括号</FormLabel>
+        </Grid>
+        <Grid item xs={4} container direction="row" justify="flex-start">
+          <FormControlLabel control={<Switch  color="primary" checked={brackets === 1} onChange={event => doUpdate({ brackets: event.target.checked ? 1 : 0 })} />} />
+        </Grid>
         <Grid item xs={12} container justify="center">
-          <button className="gen-button" onClick={() => dispatch(actions.generateQuestions(questionType, rangeMin, rangeMax, numberCount, count, blank))}>生成</button>
+          <button className="gen-button" onClick={() => dispatch(actions.generateQuestions(questionType, rangeMin, rangeMax, numberCount, count, blank, brackets))}>生成</button>
         </Grid>
       </Grid>
     </Grid>

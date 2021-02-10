@@ -1,6 +1,7 @@
 import * as Consts from 'calgen/calc/consts'
-import IteratedGen from 'calgen/service/IteratedGen';
-import * as Operator from 'calgen/model/Operator';
+import IteratedGen from 'calgen/service/IteratedGen'
+import TreeGen from 'calgen/service/TreeGen'
+import * as Operator from 'calgen/model/Operator'
 
 export const initSettingsFromLocationSearch = search => {
   let kvarr = search.replace('?', '').split('&');
@@ -18,7 +19,7 @@ export const updateSettings = (newValue) => {
   return { type: Consts.UPDATE_SETTINGS, value: newValue }
 }
 
-export const generateQuestions = (questionType, rangeMin, rangeMax, numberCount, count, blank) => {
+export const generateQuestions = (questionType, rangeMin, rangeMax, numberCount, count, blank, brackets) => {
   const operators = []
   if ((questionType & 0x01) !== 0) {
     operators.push(Operator.ADD)
@@ -27,7 +28,7 @@ export const generateQuestions = (questionType, rangeMin, rangeMax, numberCount,
     operators.push(Operator.MINUS)
   }
 
-  const iteratedGen = new IteratedGen();
+  const iteratedGen = brackets === 1 ? new TreeGen() : new IteratedGen();
   const questions = []
   for (let i = 0; i < count; i++) {
     let index = parseInt(i / 3)
@@ -40,6 +41,6 @@ export const generateQuestions = (questionType, rangeMin, rangeMax, numberCount,
 }
 
 export const getQueryParamsUrl = params => {
-  const { questionType, rangeMin, rangeMax, numberCount, count, blank } = params
-  return `?questionType=${questionType}&rangeMin=${rangeMin}&rangeMax=${rangeMax}&numberCount=${numberCount}&count=${count}&blank=${blank}`
+  const { questionType, rangeMin, rangeMax, numberCount, count, blank, brackets } = params
+  return `?questionType=${questionType}&rangeMin=${rangeMin}&rangeMax=${rangeMax}&numberCount=${numberCount}&count=${count}&blank=${blank}&brackets=${brackets}`
 }
