@@ -1,4 +1,4 @@
-import * as actions from 'calc/actions';
+import * as actions from 'calgen/calc/actions';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";

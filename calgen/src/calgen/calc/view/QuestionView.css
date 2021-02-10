@@ -1,0 +1,16 @@
+.question-cont {
+  text-align: center;
+  margin: 0 auto;
+  border: 1px black solid;
+}
+
+.question-table {
+  width: 100%;
+  padding: 0.5cm;
+  font-size: 0.8cm;
+  font-family: serif;
+}
+
+.question-table-tr {
+  height: 1.8cm;
+}

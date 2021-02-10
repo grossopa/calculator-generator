@@ -1,6 +1,6 @@
-import TreeFormula from 'model/TreeFormula';
-import * as Operator from 'model/Operator';
-import * as Random from 'util/Random.js';
+import TreeFormula from 'calgen/model/TreeFormula';
+import * as Operator from 'calgen/model/Operator';
+import * as Random from 'calgen/util/Random.js';
 import SimpleGen from './SimpleGen';
 
 export default class TreeGen {
