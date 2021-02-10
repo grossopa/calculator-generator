@@ -3,18 +3,11 @@
   margin: 0 auto;
 }
 
-.options-table label {
-  text-align: left;
-  margin-right: 1.5em;
-  width: 5em;
-  display: inline-block;
-}
-
-.options-table {
-  text-align: left;
-  margin-bottom: 20px;
-  margin-top: 20px;
-  width: 600px;
+.calc-range-char {
+  margin-left: 20px;
+  margin-right: 20px;
+  font-size: 1.5em;
+  font-weight: bold;
 }
 
 .gen-button {
