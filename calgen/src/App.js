@@ -21,11 +21,6 @@ const logger = createLogger({});
 const store = createStore(reducer, applyMiddleware(logger))
 
 function App() {
-  let generator = new TreeGen();
-  let tree = generator.generate(0, 20, 4)
-  console.log(tree)
-  console.log(tree.toDisplayString(true))
-
   return (
     <Router>
       <Provider store={store}>

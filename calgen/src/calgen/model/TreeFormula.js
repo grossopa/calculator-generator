@@ -22,7 +22,6 @@ export default class TreeFormula {
 
   toDisplayString(fillBlank) {
     let numberCount = this.getNumberCount()
-
     let randomBlank = -1
     if (fillBlank === 3) { // both
       randomBlank = Random.integer(1, numberCount + 1)
@@ -31,7 +30,6 @@ export default class TreeFormula {
     } else { // right
       randomBlank = numberCount
     }
-    console.log(numberCount, randomBlank)
     return this.iterToDisplayString([randomBlank], true)
   }
 
