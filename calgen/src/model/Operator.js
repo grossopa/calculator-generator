@@ -5,6 +5,10 @@ class Operator {
     this.value = operatorStr
     this.calc = calcFunction
   }
+
+  toString() {
+    return `Operator [${this.value}]`
+  }
 }
 
 export const ADD = new Operator('+', (l, r) => l + r)

@@ -13,6 +13,7 @@ import { applyMiddleware, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import './App.css';
 import reducer from './app/reducers';
+import TreeGen from 'service/TreeGen'
 
 
 const logger = createLogger({});
@@ -20,6 +21,11 @@ const logger = createLogger({});
 const store = createStore(reducer, applyMiddleware(logger))
 
 function App() {
+  let generator = new TreeGen();
+  let tree = generator.generate(0, 20, 4)
+  console.log(tree)
+  console.log(tree.toDisplayString(true))
+
   return (
     <Router>
       <Provider store={store}>
@@ -29,12 +35,10 @@ function App() {
           <Container maxWidth="lg" className="main-cont">
             <HeaderView />
             <QuickBarView />
-            {/* <Grid container direction="row" justify="center" alignItems="center" > */}
-              <Paper className="question-pager">
-                <QuestionTitleView />
-                <QuestionView />
-              </Paper>
-            {/* </Grid> */}
+            <Paper className="question-pager">
+              <QuestionTitleView />
+              <QuestionView />
+            </Paper>
           </Container>
         </div>
       </Provider>
