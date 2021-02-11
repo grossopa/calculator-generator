@@ -7,7 +7,6 @@ import QuestionTitleView from 'calgen/calc/view/QuestionTitleView';
 import QuestionView from 'calgen/calc/view/QuestionView';
 import QuickBarView from 'calgen/calc/view/QuickBarView';
 import LayoutHeaderView from 'calgen/layout/view/LayoutHeaderView';
-import TreeGen from 'calgen/service/TreeGen';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from "react-router-dom";

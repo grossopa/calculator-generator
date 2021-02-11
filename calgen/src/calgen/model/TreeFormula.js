@@ -1,4 +1,4 @@
-import * as Random from 'calgen/util/Random'
+import * as BlankPosition from 'calgen/model/BlankPosition'
 
 export default class TreeFormula {
   leftNode
@@ -22,15 +22,8 @@ export default class TreeFormula {
 
   toDisplayString(fillBlank) {
     let numberCount = this.getNumberCount()
-    let randomBlank = -1
-    if (fillBlank === 3) { // both
-      randomBlank = Random.integer(1, numberCount + 1)
-    } else if (fillBlank === 2) { // left
-      randomBlank = Random.integer(1, numberCount)
-    } else { // right
-      randomBlank = numberCount
-    }
-    return this.iterToDisplayString([randomBlank], true)
+    let randomBlank = BlankPosition.valueOf(fillBlank).randomPosition(numberCount);
+    return this.iterToDisplayString([randomBlank + 1], true)
   }
 
   iterToDisplayString(blankIndexRef, withAnswer) {
@@ -63,13 +56,13 @@ export default class TreeFormula {
     let answerStr = ''
     if (withAnswer) {
       if (blankIndexRef[0] <= 0) {
-        answerStr = ` = ${this.formula.answer}`
+        answerStr = `=${this.formula.answer}`
       } else {
-        answerStr = ` = ${blankStr}`
+        answerStr = `=${blankStr}`
       }
     }
 
-    return `${left} ${this.formula.operator.value} ${right}${answerStr}`
+    return `${left}${this.formula.operator.value}${right}${answerStr}`
   }
 
 }

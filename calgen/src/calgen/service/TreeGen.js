@@ -5,7 +5,7 @@ import SimpleGen from './SimpleGen';
 
 export default class TreeGen {
 
-  generator = new SimpleGen();
+  generator = new SimpleGen()
 
   generate = (min, max, round, operators = Operator.values) => {
     let answer = Random.integer(min, max)
@@ -14,7 +14,7 @@ export default class TreeGen {
     let leafNodes = []
 
     let rootNode = new TreeFormula()
-    leafNodes.push({node : rootNode, child: 0}, {node : rootNode, child : 1})
+    leafNodes.push({ node: rootNode, child: 0 }, { node: rootNode, child: 1 })
 
     let currentNode = rootNode
     for (let i = 0; i < round; i++) {
@@ -42,7 +42,7 @@ export default class TreeGen {
       }
 
       currentNode = newNode
-      leafNodes.push({node : newNode, child: 0}, {node : newNode, child : 1})
+      leafNodes.push({ node: newNode, child: 0 }, { node: newNode, child: 1 })
     }
 
     return rootNode

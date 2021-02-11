@@ -1,3 +1,5 @@
+import * as BlankPosition from 'calgen/model/BlankPosition'
+
 export default class CompositeFormula {
 
   children = []
@@ -12,15 +14,8 @@ export default class CompositeFormula {
 
   toDisplayString(fillBlank) {
     let blank = '___'
-    let randomBlank = -1
-    if (fillBlank === 3) { // both
-      randomBlank = parseInt(Math.floor(Math.random() * (this.children.length + 2)))
-    } else if (fillBlank === 2) { // left
-      randomBlank = parseInt(Math.floor(Math.random() * (this.children.length + 1)))
-    } else { // right
-      randomBlank = this.children.length + 1
-    }
-
+    let randomBlank = BlankPosition.valueOf(fillBlank).randomPosition(this.children.length + 1)
+    
     let arr = []
     arr.push(randomBlank === 0 ? blank : this.children[0].left)
     for (let i = 0; i < this.children.length; i++) {
