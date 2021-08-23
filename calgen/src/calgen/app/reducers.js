@@ -1,8 +1,9 @@
-import { calcReducer } from 'calgen/calc/reducer'
+import { calcReducers } from 'calgen/calc/reducer'
+import { layoutReducers } from 'calgen/layout/reducers'
 import { combineReducers } from 'redux'
 
 const rootReducer = combineReducers({
-  calcReducer
+  calcReducer: calcReducers, layoutReducers
 })
 
 export default rootReducer

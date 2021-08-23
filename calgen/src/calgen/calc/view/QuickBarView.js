@@ -26,7 +26,7 @@ function QuickBarView() {
           dispatch(actions.updateSettings(b.options))
           history.push(actions.getQueryParamsUrl(b.options))
           dispatch(actions.generateQuestions(b.options.questionType, b.options.rangeMin, b.options.rangeMax,
-            b.options.numberCount, b.options.count, b.options.blank, b.options.brackets))
+            b.options.numberCount, b.options.numberDigits, b.options.count, b.options.blank, b.options.brackets))
         }}>{b.label}</button>
       )}
 

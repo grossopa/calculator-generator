@@ -18,6 +18,9 @@ export default class IteratedGen {
         formula = this.generator.generateAdd(remain, remain, min)
       } else if (selectedOperator === Operator.MINUS) {
         formula = this.generator.generateMinus(remain, remain, max)
+      } else if (selectedOperator === Operator.MULTIPLY) {
+        // for multiply we don't care the remaining answer
+        formula = this.generator.generateMultiplyWithDigits(min, max)
       }
 
       result.unshift(formula)

@@ -1,6 +1,7 @@
 import * as Consts from 'calgen/calc/consts'
 import IteratedGen from 'calgen/service/IteratedGen'
 import TreeGen from 'calgen/service/TreeGen'
+import DigitsBasedIteratedGen from 'calgen/service/DigitsBasedIteratedGen'
 import * as Operator from 'calgen/model/Operator'
 
 export const initSettingsFromLocationSearch = search => {
@@ -19,23 +20,28 @@ export const updateSettings = (newValue) => {
   return { type: Consts.UPDATE_SETTINGS, value: newValue }
 }
 
-export const generateQuestions = (questionType, rangeMin, rangeMax, numberCount, count, blank, brackets) => {
-  const operators = []
-  if ((questionType & 0x01) !== 0) {
-    operators.push(Operator.ADD)
-  }
-  if ((questionType & 0x10) !== 0) {
-    operators.push(Operator.MINUS)
-  }
+export const generateQuestions = (questionType, rangeMin, rangeMax, numberCount, numberDigits, count, blank, brackets) => {
+  const operators = Operator.fromQuestionType(questionType)
 
-  const iteratedGen = brackets === 1 ? new TreeGen() : new IteratedGen();
+  var generator
+  var formula
+
   const questions = []
   for (let i = 0; i < count; i++) {
     let index = parseInt(i / 3)
     if (i % 3 === 0) {
       questions[index] = []
     }
-    questions[index].push(iteratedGen.generate(rangeMin, rangeMax, numberCount - 1, operators).toDisplayString(blank))
+
+    if ((questionType & 0x100) !== 0) {
+      generator = new DigitsBasedIteratedGen();
+      formula = generator.generate(numberDigits, numberCount - 1, operators).toDisplayString(blank)
+    } else {
+      generator = brackets === 1 ? new TreeGen() : new IteratedGen();
+      formula = generator.generate(rangeMin, rangeMax, numberCount - 1, operators).toDisplayString(blank)
+    }
+
+    questions[index].push(formula)
   }
   return { type: Consts.GENERATE_QUESTIONS, questions: questions }
 }

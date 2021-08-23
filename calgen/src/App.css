@@ -51,3 +51,10 @@
   width: 80%;
   margin: 0 auto;
 }
+
+.temp-123 {
+  position: fixed;
+  left : 400px;
+  top: 200px;
+  font-size: 500px;
+}

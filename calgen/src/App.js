@@ -1,11 +1,8 @@
 import { Container } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import reducer from 'calgen/app/reducers';
-import HeaderView from 'calgen/calc/view/HeaderView';
-import QuestionTitleView from 'calgen/calc/view/QuestionTitleView';
-import QuestionView from 'calgen/calc/view/QuestionView';
-import QuickBarView from 'calgen/calc/view/QuickBarView';
+import LayoutContentView from 'calgen/layout/view/LayoutContentView';
 import LayoutHeaderView from 'calgen/layout/view/LayoutHeaderView';
 import React from 'react';
 import { Provider } from 'react-redux';
@@ -20,6 +17,7 @@ const logger = createLogger({});
 const store = createStore(reducer, applyMiddleware(logger))
 
 function App() {
+
   return (
     <Router>
       <Provider store={store}>
@@ -27,12 +25,8 @@ function App() {
           <CssBaseline />
           <LayoutHeaderView />
           <Container maxWidth="lg" className="main-cont">
-            <HeaderView />
-            <QuickBarView />
-            <Paper className="question-pager">
-              <QuestionTitleView />
-              <QuestionView />
-            </Paper>
+            <Typography variant="h4" component="h1" align="center">小学数学计算题生成器</Typography>
+            <LayoutContentView />
           </Container>
         </div>
       </Provider>

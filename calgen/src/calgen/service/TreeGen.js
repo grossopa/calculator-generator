@@ -19,11 +19,15 @@ export default class TreeGen {
     let currentNode = rootNode
     for (let i = 0; i < round; i++) {
       let selectedOperator = Random.select(operators)
+      
       var formula
       if (selectedOperator === Operator.ADD) {
         formula = this.generator.generateAdd(remain, remain, min)
       } else if (selectedOperator === Operator.MINUS) {
         formula = this.generator.generateMinus(remain, remain, max)
+      } else if (selectedOperator === Operator.MULTIPLY) {
+        // for multiply we don't care the remaining answer
+        formula = this.generator.generateMultiply(min, max)
       }
 
       currentNode.formula = formula

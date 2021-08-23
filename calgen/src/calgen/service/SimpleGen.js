@@ -16,4 +16,10 @@ export default class SimpleGen {
     return new SimpleFormula(left, Operator.MINUS, left - answer, answer)
   }
 
+  generateMultiplyWithDigits = (leftDigit, rightDigit) => {
+    let left = Random.integer(Math.pow(10, leftDigit), Math.pow(10, leftDigit + 1))
+    let right = Random.integer(Math.pow(10, rightDigit), Math.pow(10, rightDigit + 1))
+    return new SimpleFormula(left, Operator.MULTIPLY, right, left * right)
+  }
+
 }

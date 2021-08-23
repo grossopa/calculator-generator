@@ -11,6 +11,10 @@ export default class SimpleFormula {
     this.answer = answer
   }
 
+  calculate() {
+    return this.operator.calc(this.left, this.right)
+  }
+
   toDisplayString() {
     return this.toDisplayStringNoAnswer() + ` = ${this.answer}`
   }
