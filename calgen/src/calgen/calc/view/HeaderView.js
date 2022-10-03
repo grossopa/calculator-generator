@@ -43,6 +43,13 @@ function HeaderView() {
   const labelProps = { item: true, xs: 2, container: true, direction: "row", justify: "flex-end" }
   const fieldProps = { item: true, xs: 4, container: true, direction: "row", justify: "flex-start" }
 
+  var numberSettingLabel = (questionType & 0x0100) === 0 ? '数值范围' : '数字位数'
+  var numberSettingDigit = numberCount
+  if (questionType == 0x1000) {
+    numberSettingLabel = '除数数字位数'
+    numberSettingDigit = numberCount - 1
+  } 
+
   const doUpdate = newVal => {
     dispatch(actions.updateSettings(newVal))
     history.push(actions.getQueryParamsUrl({ ...settings, ...newVal }))
@@ -57,10 +64,11 @@ function HeaderView() {
         </Grid>
         <Grid {...fieldProps} xs={10}>
           <RadioGroup row value={questionType} onChange={event => doUpdate({ questionType: parseInt(event.target.value) })}>
-            <FormControlLabel value={0x01} control={<Radio color="primary" />} label="仅加法" />
-            <FormControlLabel value={0x10} control={<Radio color="primary" />} label="仅减法" />
-            <FormControlLabel value={0x11} control={<Radio color="primary" />} label="加法+减法" />
-            <FormControlLabel value={0x100} control={<Radio color="primary" />} label="乘法" />
+            <FormControlLabel value={0x0001} control={<Radio color="primary" />} label="仅加法" />
+            <FormControlLabel value={0x0010} control={<Radio color="primary" />} label="仅减法" />
+            <FormControlLabel value={0x0011} control={<Radio color="primary" />} label="加法+减法" />
+            <FormControlLabel value={0x0100} control={<Radio color="primary" />} label="乘法" />
+            <FormControlLabel value={0x1000} control={<Radio color="primary" />} label="除法" />
           </RadioGroup>
         </Grid>
         <Grid {...labelProps}>
@@ -83,7 +91,7 @@ function HeaderView() {
             onChange={event => doUpdate({ count: Math.min(2000, parseInt(event.target.value) || 1) })} />
         </Grid>
         <Grid {...labelProps}>
-          <FormLabel>{(questionType & 0x1100) === 0 ? '数值范围' : '数字位数'}</FormLabel>
+          <FormLabel>{numberSettingLabel}</FormLabel>
         </Grid>
         {(questionType & 0x1100) === 0 && <Grid {...fieldProps}>
           <TextField type="number" InputLabelProps={{ shrink: true }} inputProps={{ style: { textAlign: 'right' } }} style={{ width: 50 }}
@@ -96,7 +104,7 @@ function HeaderView() {
         </Grid>}
         {/* including multiply and divide */}
         {(questionType & 0x1100) !== 0 && <Grid {...fieldProps}>
-          {Array.from(Array(numberCount), (_e, i) => {
+          {Array.from(Array(numberSettingDigit), (_e, i) => {
             return <span key={`Key ${i}`} style={{ marginLeft: 20 }}>
               <Typography>{`数字${i + 1}`}</Typography>
               <TextField type="number" InputLabelProps={{ shrink: true }} inputProps={{ style: { textAlign: 'right' } }} style={{ width: 50 }}

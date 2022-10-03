@@ -1,7 +1,7 @@
 import CompositeFormula from 'calgen/model/CompositeFormula';
 import * as Operator from 'calgen/model/Operator';
 import * as Random from 'calgen/util/Random.js';
-import SimpleGen from './SimpleGen';
+import SimpleGen from './generator/CompositeGen';
 
 export default class IteratedGen {
 
@@ -21,6 +21,8 @@ export default class IteratedGen {
       } else if (selectedOperator === Operator.MULTIPLY) {
         // for multiply we don't care the remaining answer
         formula = this.generator.generateMultiplyWithDigits(min, max)
+      } else if (selectedOperator === Operator.DIVIDE) {
+        formula = this.generator.generateDivide(remain, remain, min)
       }
 
       result.unshift(formula)

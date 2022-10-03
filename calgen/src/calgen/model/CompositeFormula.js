@@ -16,6 +16,14 @@ export default class CompositeFormula {
     this.children.push(formula)
   }
 
+  isEmpty() {
+    return this.children.length === 0
+  }
+
+  getByIndex(index) {
+    return this.children[index]
+  }
+
   toDisplayString(fillBlank) {
     let blank = '___'
     let randomBlank = BlankPosition.valueOf(fillBlank).randomPosition(this.children.length + 1)

@@ -33,7 +33,7 @@ export const generateQuestions = (questionType, rangeMin, rangeMax, numberCount,
       questions[index] = []
     }
 
-    if ((questionType & 0x100) !== 0) {
+    if ((questionType & 0x1100) !== 0) {
       generator = new DigitsBasedIteratedGen();
       formula = generator.generate(numberDigits, numberCount - 1, operators).toDisplayString(blank)
     } else {
