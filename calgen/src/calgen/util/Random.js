@@ -16,7 +16,6 @@ export function gracefulDivider(min = 0, max = GRACEFUL_DIVIDER.length, limitRan
   let weightMin = GRACEFUL_DIVIDER_PERCENTAGE[min]
   let weightMax = GRACEFUL_DIVIDER_PERCENTAGE[max]
   let random = integer(weightMin, weightMax + 1)
-  console.log(GRACEFUL_DIVIDER_PERCENTAGE, random)
   for (var i = min; i <= max; i++) {
     if (random < GRACEFUL_DIVIDER_PERCENTAGE[i]) {
       return i;

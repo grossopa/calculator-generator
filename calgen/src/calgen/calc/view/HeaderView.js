@@ -1,6 +1,7 @@
 import { FormControlLabel, FormLabel, Grid, MenuItem, Radio, RadioGroup, Switch, TextField, Typography } from '@material-ui/core';
 import Select from '@material-ui/core/Select';
 import * as actions from 'calgen/calc/actions';
+import * as Operator from 'calgen/model/Operator';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom";
@@ -28,6 +29,7 @@ function HeaderView() {
   const count = useSelector(state => state.calcReducer.count)
   const blank = useSelector(state => state.calcReducer.blank)
   const brackets = useSelector(state => state.calcReducer.brackets)
+  const isDivideWithExtra = (Operator.DIVIDE_WITH_EXTRA_VAL & questionType) === Operator.DIVIDE_WITH_EXTRA_VAL
 
   const settings = {
     questionType: questionType,
@@ -45,10 +47,13 @@ function HeaderView() {
 
   var numberSettingLabel = (questionType & 0x0100) === 0 ? '数值范围' : '数字位数'
   var numberSettingDigit = numberCount
-  if (questionType == 0x1000) {
+  if ((questionType & (Operator.DIVIDE_VAL | Operator.DIVIDE_WITH_EXTRA_VAL)) !== 0 ) {
     numberSettingLabel = '除数数字位数'
     numberSettingDigit = numberCount - 1
-  } 
+  }
+  if (questionType === Operator.DIVIDE_WITH_EXTRA_VAL) {
+    numberSettingDigit = 1
+  }
 
   const doUpdate = newVal => {
     dispatch(actions.updateSettings(newVal))
@@ -64,24 +69,26 @@ function HeaderView() {
         </Grid>
         <Grid {...fieldProps} xs={10}>
           <RadioGroup row value={questionType} onChange={event => doUpdate({ questionType: parseInt(event.target.value) })}>
-            <FormControlLabel value={0x0001} control={<Radio color="primary" />} label="仅加法" />
-            <FormControlLabel value={0x0010} control={<Radio color="primary" />} label="仅减法" />
-            <FormControlLabel value={0x0011} control={<Radio color="primary" />} label="加法+减法" />
-            <FormControlLabel value={0x0100} control={<Radio color="primary" />} label="乘法" />
-            <FormControlLabel value={0x1000} control={<Radio color="primary" />} label="除法" />
+            <FormControlLabel value={Operator.ADD_VAL} control={<Radio color="primary" />} label="仅加法" />
+            <FormControlLabel value={Operator.MINUS_VAL} control={<Radio color="primary" />} label="仅减法" />
+            <FormControlLabel value={Operator.ADD_VAL | Operator.MINUS_VAL} control={<Radio color="primary" />} label="加法和减法" />
+            <FormControlLabel value={Operator.MULTIPLY_VAL} control={<Radio color="primary" />} label="乘法" />
+            <FormControlLabel value={Operator.DIVIDE_VAL} control={<Radio color="primary" />} label="除法" />
+            <FormControlLabel value={Operator.DIVIDE_WITH_EXTRA_VAL} control={<Radio color="primary" />} label="除法+余数" />
+            <FormControlLabel value={Operator.MULTIPLY_VAL | Operator.DIVIDE_VAL} control={<Radio color="primary" />} label="乘法和除法" />
           </RadioGroup>
         </Grid>
-        <Grid {...labelProps}>
+        {!isDivideWithExtra && <Grid {...labelProps}>
           <FormLabel>数字个数</FormLabel>
-        </Grid>
-        <Grid {...fieldProps}>
+        </Grid>}
+        {!isDivideWithExtra && <Grid {...fieldProps}>
           <Select value={numberCount} onChange={event => doUpdate({ numberCount: parseInt(event.target.value) })} >
             <MenuItem value={2}>2 (a + b = z)</MenuItem>
             <MenuItem value={3}>3 (a + b + c = z)</MenuItem>
             <MenuItem value={4}>4 (a + b + c + d = z)</MenuItem>
             <MenuItem value={5}>5 (a + b + c + d + e = z)</MenuItem>
           </Select>
-        </Grid>
+        </Grid>}
         <Grid {...labelProps}>
           <FormLabel>题目数量</FormLabel>
         </Grid>
@@ -93,7 +100,7 @@ function HeaderView() {
         <Grid {...labelProps}>
           <FormLabel>{numberSettingLabel}</FormLabel>
         </Grid>
-        {(questionType & 0x1100) === 0 && <Grid {...fieldProps}>
+        {(questionType & 0x11100) === 0 && <Grid {...fieldProps}>
           <TextField type="number" InputLabelProps={{ shrink: true }} inputProps={{ style: { textAlign: 'right' } }} style={{ width: 50 }}
             min={-100000} max={rangeMax - 1} value={rangeMin}
             onChange={event => doUpdate({ rangeMin: parseInt(event.target.value) })} />
@@ -103,7 +110,7 @@ function HeaderView() {
             onChange={event => doUpdate({ rangeMax: parseInt(event.target.value) })} />
         </Grid>}
         {/* including multiply and divide */}
-        {(questionType & 0x1100) !== 0 && <Grid {...fieldProps}>
+        {(questionType & 0x11100) !== 0 && <Grid {...fieldProps}>
           {Array.from(Array(numberSettingDigit), (_e, i) => {
             return <span key={`Key ${i}`} style={{ marginLeft: 20 }}>
               <Typography>{`数字${i + 1}`}</Typography>
@@ -123,17 +130,17 @@ function HeaderView() {
         </Grid>
         <Grid {...fieldProps}>
           <RadioGroup row value={blank} onChange={event => doUpdate({ blank: parseInt(event.target.value) })}>
-            <FormControlLabel value={1} control={<Radio color="primary" />} label="仅右边" />
-            <FormControlLabel value={2} control={<Radio color="primary" />} label="仅左边" />
+            <FormControlLabel value={2} control={<Radio color="primary" />} label="仅右边" />
+            <FormControlLabel value={1} control={<Radio color="primary" />} label="仅左边" />
             <FormControlLabel value={3} control={<Radio color="primary" />} label="两边" />
           </RadioGroup>
         </Grid>
-        <Grid {...labelProps}>
+        {!isDivideWithExtra && <Grid {...labelProps}>
           <FormLabel>包含括号</FormLabel>
-        </Grid>
-        <Grid {...fieldProps}>
+        </Grid>}
+        {!isDivideWithExtra && <Grid {...fieldProps}>
           <FormControlLabel control={<Switch color="primary" checked={brackets === 1} onChange={event => doUpdate({ brackets: event.target.checked ? 1 : 0 })} />} />
-        </Grid>
+        </Grid>}
         <Grid {...labelProps}>
         </Grid>
         <Grid {...fieldProps}>

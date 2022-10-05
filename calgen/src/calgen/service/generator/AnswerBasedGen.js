@@ -22,18 +22,10 @@ export default class AnswerBasedGen {
     return new SimpleFormula(left, Operator.MULTIPLY, right, left * right)
   }
 
-  generateDivide = (answerMin, answerMax, leftMax, includeAnswerExtra = false) => {
+  generateDivide = (answerMin, answerMax, leftMax) => {
     var answer = Random.integer(answerMin, answerMax)
-    let dividerMax = Math.floor(leftMax / answerMax)
+    let dividerMax = Math.floor(leftMax / answerMin)
     let divider = Random.gracefulDivider(1, dividerMax)
-    var answerExtra = 0
-    if (includeAnswerExtra) {
-      answerExtra = Random.integer(0, divider)
-    }
-
-    console.log(`${leftMax} ${divider} ${answer} ${dividerMax}`)
-
-    return new SimpleFormula(divider * answer + answerExtra, Operator.DIVIDE, divider, answer, answerExtra)
+    return new SimpleFormula(divider * answer, Operator.DIVIDE, divider, answer)
   }
-
 }

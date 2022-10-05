@@ -3,6 +3,7 @@ import * as Operator from 'calgen/model/Operator';
 import * as Random from 'calgen/util/Random.js';
 import SimpleGen from './generator/CompositeGen';
 import SimpleFormula from 'calgen/model/SimpleFormula'
+import DivideWithExtraFormula from 'calgen/model/DivideWithExtraFormula'
 
 export default class DigitsBasedIteratedGen {
 
@@ -26,20 +27,8 @@ export default class DigitsBasedIteratedGen {
         formula = new SimpleFormula(left, selectedOperator, right, selectedOperator.calc(left, right))
         answer = selectedOperator.calc(left, right)
       } else if (selectedOperator === Operator.DIVIDE) {
-        let left;
-        let right = this.randomDivider(numberDigits[i]);
-        if (result.isEmpty()) {
-          // TODO: good way to random the answer?
-          answer = Random.integer(1, 100)
-          left = answer * right
-        } else {
-          for (let j = 0; j < i; j++) {
-            result.getByIndex(j).multiply(right);
-          }
-          left = result.getByIndex(i - 1).answer
-          answer = left / right
-        }
-        formula = new SimpleFormula(left, selectedOperator, right, selectedOperator.calc(left, right))
+        formula = this.generateDivide(numberDigits[i], result, selectedOperator)
+        answer = formula.calculate()
       }
       
       result.answer = answer
@@ -49,8 +38,31 @@ export default class DigitsBasedIteratedGen {
     return result
   }
 
+  generateDividerWithExtra = (numberDigit) => {
+    let simpleFormula = this.generateDivide(numberDigit, null, Operator.DIVIDE_WITH_EXTRA)
+    let answerExtra = Random.integer(0, simpleFormula.right)
+    return new DivideWithExtraFormula(simpleFormula.left + answerExtra, simpleFormula.right, simpleFormula.answer, answerExtra)
+  }
+
+  generateDivide = (numberDigit, result, operator) => {
+    let left
+    let right = this.randomDivider(numberDigit)
+    let answer
+    if (!result || result.isEmpty()) {
+      // TODO: good way to random the answer?
+      answer = Random.integer(1, 100)
+      left = answer * right
+    } else {
+      for (let j = 0; j < result.length; j++) {
+        result.getByIndex(j).multiply(right);
+      }
+      left = result.getByIndex(result.length - 1).answer
+      answer = left / right
+    }
+    return new SimpleFormula(left, operator, right, operator.calc(left, right))
+  }
+
   randomDivider(digits) {
-    var divider = 0;
     if (digits === 1) {
       return Random.gracefulDivider(1, 10)
     } else if (digits === 2) {

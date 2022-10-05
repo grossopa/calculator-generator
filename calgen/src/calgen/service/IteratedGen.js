@@ -1,11 +1,11 @@
 import CompositeFormula from 'calgen/model/CompositeFormula';
 import * as Operator from 'calgen/model/Operator';
 import * as Random from 'calgen/util/Random.js';
-import SimpleGen from './generator/CompositeGen';
+import CompositeGen from './generator/CompositeGen';
 
 export default class IteratedGen {
 
-  generator = new SimpleGen();
+  generator = new CompositeGen();
 
   generate = (min, max, round, operators = Operator.values) => {
     let answer = Random.integer(min, max)
@@ -31,5 +31,7 @@ export default class IteratedGen {
 
     return result
   }
+
+
 
 }

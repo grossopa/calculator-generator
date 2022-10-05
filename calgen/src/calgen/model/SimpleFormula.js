@@ -27,12 +27,4 @@ export default class SimpleFormula {
     return this.operator.calc(this.left, this.right)
   }
 
-  toDisplayString() {
-    return this.toDisplayStringNoAnswer() + ` = ${this.answer}`
-  }
-
-  toDisplayStringNoAnswer() {
-    return `${this.left} ${this.operator.value} ${this.right}`
-  }
-
 }

@@ -1,11 +1,11 @@
 import TreeFormula from 'calgen/model/TreeFormula';
 import * as Operator from 'calgen/model/Operator';
 import * as Random from 'calgen/util/Random.js';
-import SimpleGen from './generator/CompositeGen';
+import CompositeGen from './generator/CompositeGen';
 
 export default class TreeGen {
 
-  generator = new SimpleGen()
+  generator = new CompositeGen()
 
   generate = (min, max, round, operators = Operator.values) => {
     let answer = Random.integer(min, max)

@@ -10,9 +10,14 @@ export const initSettingsFromLocationSearch = search => {
   for (let i = 0; i < kvarr.length; i++) {
     let temparr = kvarr[i].split('=');
     if (temparr.length > 1) {
-      newValue[temparr[0]] = parseInt(temparr[1])
+      if (temparr[0] === 'numberDigits') {
+        newValue[temparr[0]] = temparr[1].split(',').map(s => parseInt(s))
+      } else {
+        newValue[temparr[0]] = parseInt(temparr[1])
+      }
     }
   }
+  
   return { type: Consts.UPDATE_SETTINGS, value: newValue }
 }
 
@@ -33,7 +38,10 @@ export const generateQuestions = (questionType, rangeMin, rangeMax, numberCount,
       questions[index] = []
     }
 
-    if ((questionType & 0x1100) !== 0) {
+    if ((questionType & Operator.DIVIDE_WITH_EXTRA_VAL) === Operator.DIVIDE_WITH_EXTRA_VAL) {
+      generator = new DigitsBasedIteratedGen()
+      formula = generator.generateDividerWithExtra(numberDigits[0]).toDisplayString(blank)
+    } else if ((questionType & 0x1100) !== 0) {
       generator = new DigitsBasedIteratedGen();
       formula = generator.generate(numberDigits, numberCount - 1, operators).toDisplayString(blank)
     } else {
@@ -48,5 +56,6 @@ export const generateQuestions = (questionType, rangeMin, rangeMax, numberCount,
 
 export const getQueryParamsUrl = params => {
   const { questionType, rangeMin, rangeMax, numberCount, count, blank, brackets } = params
-  return `?questionType=${questionType}&rangeMin=${rangeMin}&rangeMax=${rangeMax}&numberCount=${numberCount}&count=${count}&blank=${blank}&brackets=${brackets}`
+  const numberDigits = params.numberDigits || []
+  return `?questionType=${questionType}&rangeMin=${rangeMin}&rangeMax=${rangeMax}&numberCount=${numberCount}&numberDigits=${numberDigits.join(",")}&count=${count}&blank=${blank}&brackets=${brackets}`
 }
