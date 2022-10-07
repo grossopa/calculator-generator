@@ -6,6 +6,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import './HeaderView.css';
+import HowToUseView from 'calgen/calc/view/HowToUseView';
 
 function OnLoad() {
   const dispatch = useDispatch()
@@ -42,8 +43,8 @@ function HeaderView() {
     brackets: brackets
   }
 
-  const labelProps = { item: true, xs: 2, container: true, direction: "row", justify: "flex-end" }
-  const fieldProps = { item: true, xs: 4, container: true, direction: "row", justify: "flex-start" }
+  const labelProps = { item: true, xs: 2, container: true, direction: "row", justifyContent: "flex-end", alignItems: "center" }
+  const fieldProps = { item: true, xs: 4, container: true, direction: "row", justifyContent: "flex-start", alignItems: "center" }
 
   var numberSettingLabel = (questionType & 0x0100) === 0 ? '数值范围' : '数字位数'
   var numberSettingDigit = numberCount
@@ -61,9 +62,9 @@ function HeaderView() {
   }
 
   return (
-    <Grid className="noprint" container justify="center">
+    <Grid className="noprint" container justifyContent="center" alignItems="flex-start">
       <OnLoad />
-      <Grid container spacing={3} justify="center" alignItems="center" style={{ width: '90%' }}>
+      <Grid container item xs={9} spacing={3} justifyContent="center" alignItems="center" style={{ width: '90%' }}>
         <Grid {...labelProps}>
           <FormLabel>题型</FormLabel>
         </Grid>
@@ -130,8 +131,8 @@ function HeaderView() {
         </Grid>
         <Grid {...fieldProps}>
           <RadioGroup row value={blank} onChange={event => doUpdate({ blank: parseInt(event.target.value) })}>
-            <FormControlLabel value={2} control={<Radio color="primary" />} label="仅右边" />
-            <FormControlLabel value={1} control={<Radio color="primary" />} label="仅左边" />
+            <FormControlLabel value={2} control={<Radio color="primary" />} label="右边" />
+            <FormControlLabel value={1} control={<Radio color="primary" />} label="左边" />
             <FormControlLabel value={3} control={<Radio color="primary" />} label="两边" />
           </RadioGroup>
         </Grid>
@@ -145,9 +146,12 @@ function HeaderView() {
         </Grid>
         <Grid {...fieldProps}>
         </Grid>
-        <Grid item xs={12} container justify="center">
-          <button className="gen-button" onClick={() => dispatch(actions.generateQuestions(questionType, rangeMin, rangeMax, numberCount, numberDigits, count, blank, brackets))}>生成</button>
-        </Grid>
+      </Grid>
+      <Grid item xs={3}>
+        <HowToUseView />
+      </Grid>
+      <Grid item xs={12} container justifyContent="center">
+        <button className="gen-button" onClick={() => dispatch(actions.generateQuestions(questionType, rangeMin, rangeMax, numberCount, numberDigits, count, blank, brackets))}>生成</button>
       </Grid>
     </Grid>
   )

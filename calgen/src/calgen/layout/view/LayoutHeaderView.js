@@ -1,4 +1,4 @@
-import { Tabs, Tab } from '@material-ui/core';
+import { Tabs, Tab, Box, Button, Typography } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -25,10 +25,16 @@ function LayoutHeaderView() {
         <IconButton edge="start" color="inherit" aria-label="menu">
           <MenuIcon />
         </IconButton>
-        <Tabs value={selectedTab} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="加减法" value={Consts.TAB_ADDMINUS} />
+       
+        <Tabs value={selectedTab} onChange={handleChange} aria-label="simple tabs example"
+          sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
+          <Tab label="四则运算" value={Consts.TAB_ADDMINUS} />
           <Tab label="乘法" value={Consts.TAB_MULTIPLY} />
         </Tabs>
+        <Box sx={{ flexGrow: 1 }} />
+        <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+          <Button variant="outlined">{'关于'}</Button>
+        </Box>
       </Toolbar>
     </AppBar>
   )
