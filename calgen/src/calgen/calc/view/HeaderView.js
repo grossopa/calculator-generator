@@ -8,6 +8,20 @@ import { useHistory } from "react-router-dom";
 import './HeaderView.css';
 import HowToUseView from 'calgen/calc/view/HowToUseView';
 
+const LABEL_PROPS = { item: true, xs: 2, container: true, direction: "row", justifyContent: "flex-end", alignItems: "center" }
+const FIELD_PROPS = { item: true, xs: 4, container: true, direction: "row", justifyContent: "flex-start", alignItems: "center" }
+
+function SettingForm(props) {
+  return <React.Fragment>
+    <Grid {...LABEL_PROPS}>
+      <FormLabel>{props.formLabel}</FormLabel>
+    </Grid>
+    <Grid {...FIELD_PROPS} {...props.fieldProps}>
+      {props.children}
+    </Grid>
+  </React.Fragment>
+}
+
 function OnLoad() {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -43,18 +57,18 @@ function HeaderView() {
     brackets: brackets
   }
 
-  const labelProps = { item: true, xs: 2, container: true, direction: "row", justifyContent: "flex-end", alignItems: "center" }
-  const fieldProps = { item: true, xs: 4, container: true, direction: "row", justifyContent: "flex-start", alignItems: "center" }
-
   var numberSettingLabel = (questionType & 0x0100) === 0 ? '数值范围' : '数字位数'
   var numberSettingDigit = numberCount
-  if ((questionType & (Operator.DIVIDE_VAL | Operator.DIVIDE_WITH_EXTRA_VAL)) !== 0 ) {
+  if ((questionType & (Operator.DIVIDE_VAL | Operator.DIVIDE_WITH_EXTRA_VAL)) !== 0) {
     numberSettingLabel = '除数数字位数'
     numberSettingDigit = numberCount - 1
   }
   if (questionType === Operator.DIVIDE_WITH_EXTRA_VAL) {
     numberSettingDigit = 1
   }
+
+  const questionTypes = Operator.fromQuestionType(questionType)
+  const operatorLabel = questionTypes.map(q => q.value).join("/")
 
   const doUpdate = newVal => {
     dispatch(actions.updateSettings(newVal))
@@ -65,10 +79,7 @@ function HeaderView() {
     <Grid className="noprint" container justifyContent="center" alignItems="flex-start">
       <OnLoad />
       <Grid container item xs={9} spacing={3} justifyContent="center" alignItems="center" style={{ width: '90%' }}>
-        <Grid {...labelProps}>
-          <FormLabel>题型</FormLabel>
-        </Grid>
-        <Grid {...fieldProps} xs={10}>
+        <SettingForm formLabel="题型" fieldProps={{ xs: 10 }}>
           <RadioGroup row value={questionType} onChange={event => doUpdate({ questionType: parseInt(event.target.value) })}>
             <FormControlLabel value={Operator.ADD_VAL} control={<Radio color="primary" />} label="仅加法" />
             <FormControlLabel value={Operator.MINUS_VAL} control={<Radio color="primary" />} label="仅减法" />
@@ -78,78 +89,72 @@ function HeaderView() {
             <FormControlLabel value={Operator.DIVIDE_WITH_EXTRA_VAL} control={<Radio color="primary" />} label="除法+余数" />
             <FormControlLabel value={Operator.MULTIPLY_VAL | Operator.DIVIDE_VAL} control={<Radio color="primary" />} label="乘法和除法" />
           </RadioGroup>
-        </Grid>
-        {!isDivideWithExtra && <Grid {...labelProps}>
-          <FormLabel>数字个数</FormLabel>
-        </Grid>}
-        {!isDivideWithExtra && <Grid {...fieldProps}>
+        </SettingForm>
+
+        {!isDivideWithExtra && <SettingForm formLabel="数字个数">
           <Select value={numberCount} onChange={event => doUpdate({ numberCount: parseInt(event.target.value) })} >
-            <MenuItem value={2}>2 (a + b = z)</MenuItem>
-            <MenuItem value={3}>3 (a + b + c = z)</MenuItem>
-            <MenuItem value={4}>4 (a + b + c + d = z)</MenuItem>
-            <MenuItem value={5}>5 (a + b + c + d + e = z)</MenuItem>
+            <MenuItem value={2}>2: (a {operatorLabel} b = z)</MenuItem>
+            <MenuItem value={3}>3: (a {operatorLabel} b {operatorLabel} c = z)</MenuItem>
+            <MenuItem value={4}>4: (a {operatorLabel} b {operatorLabel} c {operatorLabel} d = z)</MenuItem>
+            <MenuItem value={5}>5: (a {operatorLabel} b {operatorLabel} c {operatorLabel} d {operatorLabel} e = z)</MenuItem>
           </Select>
-        </Grid>}
-        <Grid {...labelProps}>
-          <FormLabel>题目数量</FormLabel>
-        </Grid>
-        <Grid {...fieldProps}>
+        </SettingForm>}
+
+        <SettingForm formLabel="题目数量">
           <TextField type="number" InputLabelProps={{ shrink: true }} inputProps={{ style: { textAlign: 'right' } }} style={{ width: 50 }}
             min={1} max={2000} value={count}
             onChange={event => doUpdate({ count: Math.min(2000, parseInt(event.target.value) || 1) })} />
-        </Grid>
-        <Grid {...labelProps}>
-          <FormLabel>{numberSettingLabel}</FormLabel>
-        </Grid>
-        {(questionType & 0x11100) === 0 && <Grid {...fieldProps}>
-          <TextField type="number" InputLabelProps={{ shrink: true }} inputProps={{ style: { textAlign: 'right' } }} style={{ width: 50 }}
-            min={-100000} max={rangeMax - 1} value={rangeMin}
-            onChange={event => doUpdate({ rangeMin: parseInt(event.target.value) })} />
-          <span className="calc-range-char">~</span>
-          <TextField type="number" InputLabelProps={{ shrink: true }} inputProps={{ style: { textAlign: 'right' } }} style={{ width: 50 }}
-            min={rangeMin} max={100000} value={rangeMax}
-            onChange={event => doUpdate({ rangeMax: parseInt(event.target.value) })} />
-        </Grid>}
-        {/* including multiply and divide */}
-        {(questionType & 0x11100) !== 0 && <Grid {...fieldProps}>
-          {Array.from(Array(numberSettingDigit), (_e, i) => {
-            return <span key={`Key ${i}`} style={{ marginLeft: 20 }}>
-              <Typography>{`数字${i + 1}`}</Typography>
-              <TextField type="number" InputLabelProps={{ shrink: true }} inputProps={{ style: { textAlign: 'right' } }} style={{ width: 50 }}
-                min={1} max={5} value={numberDigits[i]}
-                onChange={event => {
-                  let newNumberDigits = numberDigits.slice(0)
-                  newNumberDigits[i] = Math.min(5, parseInt(event.target.value) || 1)
-                  doUpdate({ numberDigits: newNumberDigits });
-                }} />
-            </span>
-          })
-          }
-        </Grid>}
-        <Grid {...labelProps}>
-          <FormLabel>填空位置</FormLabel>
-        </Grid>
-        <Grid {...fieldProps}>
+        </SettingForm>
+
+        <SettingForm formLabel={numberSettingLabel}>
+          {(questionType & 0x11100) === 0 && <React.Fragment>
+            <TextField type="number" InputLabelProps={{ shrink: true }} inputProps={{ style: { textAlign: 'right' } }} style={{ width: 50 }}
+              min={-100000} max={rangeMax - 1} value={rangeMin}
+              onChange={event => doUpdate({ rangeMin: parseInt(event.target.value) })} />
+            <span className="calc-range-char">~</span>
+            <TextField type="number" InputLabelProps={{ shrink: true }} inputProps={{ style: { textAlign: 'right' } }} style={{ width: 50 }}
+              min={rangeMin} max={100000} value={rangeMax}
+              onChange={event => doUpdate({ rangeMax: parseInt(event.target.value) })} />
+          </React.Fragment>}
+          {(questionType & 0x11100) !== 0 && <React.Fragment>
+            {Array.from(Array(numberSettingDigit), (_e, i) => {
+              return <span key={`Key ${i}`} style={{ marginLeft: 20 }}>
+                <Typography>{`数字${i + 1}`}</Typography>
+                <TextField type="number" InputLabelProps={{ shrink: true }} inputProps={{ style: { textAlign: 'right' } }} style={{ width: 50 }}
+                  min={1} max={5} value={numberDigits[i]}
+                  onChange={event => {
+                    let newNumberDigits = numberDigits.slice(0)
+                    newNumberDigits[i] = Math.min(5, parseInt(event.target.value) || 1)
+                    doUpdate({ numberDigits: newNumberDigits });
+                  }} />
+              </span>
+            })}
+          </React.Fragment>}
+        </SettingForm>
+
+        <SettingForm formLabel="填空位置">
           <RadioGroup row value={blank} onChange={event => doUpdate({ blank: parseInt(event.target.value) })}>
             <FormControlLabel value={2} control={<Radio color="primary" />} label="右边" />
             <FormControlLabel value={1} control={<Radio color="primary" />} label="左边" />
             <FormControlLabel value={3} control={<Radio color="primary" />} label="两边" />
           </RadioGroup>
-        </Grid>
-        {!isDivideWithExtra && <Grid {...labelProps}>
-          <FormLabel>包含括号</FormLabel>
-        </Grid>}
-        {!isDivideWithExtra && <Grid {...fieldProps}>
-          <FormControlLabel control={<Switch color="primary" checked={brackets === 1} onChange={event => doUpdate({ brackets: event.target.checked ? 1 : 0 })} />} />
-        </Grid>}
-        <Grid {...labelProps}>
-        </Grid>
-        <Grid {...fieldProps}>
-        </Grid>
+        </SettingForm>
+
+        {!isDivideWithExtra && <React.Fragment>
+          <SettingForm formLabel="包含括号">
+            <RadioGroup row value={blank} onChange={event => doUpdate({ blank: parseInt(event.target.value) })}>
+              <FormControlLabel control={<Switch color="primary" checked={brackets === 1} onChange={event => doUpdate({ brackets: event.target.checked ? 1 : 0 })} />} />
+            </RadioGroup>
+          </SettingForm>
+        </React.Fragment>}
+
+        <SettingForm />
       </Grid>
+
       <Grid item xs={3}>
         <HowToUseView />
       </Grid>
+
       <Grid item xs={12} container justifyContent="center">
         <button className="gen-button" onClick={() => dispatch(actions.generateQuestions(questionType, rangeMin, rangeMax, numberCount, numberDigits, count, blank, brackets))}>生成</button>
       </Grid>

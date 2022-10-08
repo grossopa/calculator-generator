@@ -3,6 +3,7 @@ import * as BlankPosition from 'calgen/model/BlankPosition'
 export default class CompositeFormula {
 
   children = []
+  length = 0
   answer
   constructor(answer) {
     this.answer = answer
@@ -10,10 +11,12 @@ export default class CompositeFormula {
 
   unshift(formula) {
     this.children.unshift(formula)
+    this.length = this.children.length
   }
 
   push(formula) {
     this.children.push(formula)
+    this.length = this.children.length
   }
 
   isEmpty() {

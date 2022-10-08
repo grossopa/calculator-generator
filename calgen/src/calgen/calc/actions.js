@@ -33,11 +33,6 @@ export const generateQuestions = (questionType, rangeMin, rangeMax, numberCount,
 
   const questions = []
   for (let i = 0; i < count; i++) {
-    let index = parseInt(i / 3)
-    if (i % 3 === 0) {
-      questions[index] = []
-    }
-
     if ((questionType & Operator.DIVIDE_WITH_EXTRA_VAL) === Operator.DIVIDE_WITH_EXTRA_VAL) {
       generator = new DigitsBasedIteratedGen()
       formula = generator.generateDividerWithExtra(numberDigits[0]).toDisplayString(blank)
@@ -49,7 +44,7 @@ export const generateQuestions = (questionType, rangeMin, rangeMax, numberCount,
       formula = generator.generate(rangeMin, rangeMax, numberCount - 1, operators).toDisplayString(blank)
     }
 
-    questions[index].push(formula)
+    questions.push(formula)
   }
   return { type: Consts.GENERATE_QUESTIONS, questions: questions }
 }

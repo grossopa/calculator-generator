@@ -1,14 +1,10 @@
-import * as React from 'react';
-import Box from '@material-ui/core/Box';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepContent from '@material-ui/core/StepContent';
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
+import Step from '@material-ui/core/Step'
+import StepContent from '@material-ui/core/StepContent'
+import StepLabel from '@material-ui/core/StepLabel'
+import Stepper from '@material-ui/core/Stepper'
+import Typography from '@material-ui/core/Typography'
 
 const steps = [
   { label: '选择需要的习题', description: '' },
@@ -36,10 +32,9 @@ function HowToUseView() {
 
   return <Card sx={{ minWidth: 275 }}>
     <CardContent>
-      <Typography variant="h5" gutterBottom>
-        如何使用
-      </Typography>
+      <Typography variant="h5">如何使用</Typography>
       <HowToUseStepper />
+      <Typography align="right">作者 Jack Yin</Typography>
     </CardContent>
   </Card>
 }
