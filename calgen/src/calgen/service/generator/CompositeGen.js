@@ -17,6 +17,14 @@ export default class CompositeGen {
     return this.answerBasedGen.generateMinus(answerMin, answerMax, leftMax);
   }
 
+  generateMultiply = (leftDigit, rightDigit) => {
+    return this.digitsBasedGen.generateMultiply(leftDigit, rightDigit)
+  }
+
+  generateDivide = (answerDigit) => {
+    return this.answerBasedGen.generateDivide(1, Math.pow(10, answerDigit), Math.pow(10, answerDigit));
+  }
+
   generateMultiplyWithDigits = (leftDigit, rightDigit) => {
     let left = Random.integer(Math.pow(10, leftDigit), Math.pow(10, leftDigit + 1))
     let right = Random.integer(Math.pow(10, rightDigit), Math.pow(10, rightDigit + 1))

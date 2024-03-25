@@ -2,6 +2,7 @@ import * as Consts from 'calgen/calc/consts'
 import IteratedGen from 'calgen/service/IteratedGen'
 import TreeGen from 'calgen/service/TreeGen'
 import DigitsBasedIteratedGen from 'calgen/service/DigitsBasedIteratedGen'
+import DigitsBasedTreeGen from 'calgen/service/DigitsBasedTreeGen'
 import * as Operator from 'calgen/model/Operator'
 
 export const initSettingsFromLocationSearch = search => {
@@ -37,7 +38,7 @@ export const generateQuestions = (questionType, rangeMin, rangeMax, numberCount,
       generator = new DigitsBasedIteratedGen()
       formula = generator.generateDividerWithExtra(numberDigits[0]).toDisplayString(blank)
     } else if ((questionType & 0x1100) !== 0) {
-      generator = new DigitsBasedIteratedGen();
+      generator = brackets === 1 ? new DigitsBasedTreeGen() : new DigitsBasedIteratedGen();
       formula = generator.generate(numberDigits, numberCount - 1, operators).toDisplayString(blank)
     } else {
       generator = brackets === 1 ? new TreeGen() : new IteratedGen();

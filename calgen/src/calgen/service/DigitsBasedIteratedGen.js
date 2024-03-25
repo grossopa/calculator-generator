@@ -16,11 +16,6 @@ export default class DigitsBasedIteratedGen {
     for (let i = 0; i < round; i++) {
       let selectedOperator = Random.select(operators)
       var formula
-      /* if (selectedOperator === Operator.ADD) {
-        formula = this.generator.generateAdd(remain, remain, min)
-      } else if (selectedOperator === Operator.MINUS) {
-        formula = this.generator.generateMinus(remain, remain, max)
-      } else */
       if (selectedOperator === Operator.MULTIPLY) {
         let left = i === 0 ? Random.integer(Math.pow(10, numberDigits[i] - 1), Math.pow(10, numberDigits[i])) : answer
         let right = Random.integer(Math.pow(10, numberDigits[i + 1] - 1), Math.pow(10, numberDigits[i + 1]))
