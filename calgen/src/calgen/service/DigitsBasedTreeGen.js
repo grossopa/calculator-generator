@@ -20,7 +20,6 @@ export default class DigitsBasedTreeGen {
     let currentNode = rootNode
     for (let i = 0; i < round; i++) {
       let selectedOperator = Random.select(operators)
-      console.log("Remain", remain)
       
       var formula
       if (selectedOperator === Operator.MULTIPLY) {

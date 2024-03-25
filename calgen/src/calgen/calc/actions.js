@@ -18,7 +18,7 @@ export const initSettingsFromLocationSearch = search => {
       }
     }
   }
-  
+
   return { type: Consts.UPDATE_SETTINGS, value: newValue }
 }
 
@@ -37,6 +37,9 @@ export const generateQuestions = (questionType, rangeMin, rangeMax, numberCount,
     if ((questionType & Operator.DIVIDE_WITH_EXTRA_VAL) === Operator.DIVIDE_WITH_EXTRA_VAL) {
       generator = new DigitsBasedIteratedGen()
       formula = generator.generateDividerWithExtra(numberDigits[0]).toDisplayString(blank)
+    } else if ((questionType & 0x1111) !== 0) {
+      generator = brackets === 1 ? new TreeGen() : new IteratedGen();
+      formula = generator.generate(0, Math.pow(10, numberDigits[0] + 1), numberCount - 1, operators).toDisplayString(blank)
     } else if ((questionType & 0x1100) !== 0) {
       generator = brackets === 1 ? new DigitsBasedTreeGen() : new DigitsBasedIteratedGen();
       formula = generator.generate(numberDigits, numberCount - 1, operators).toDisplayString(blank)

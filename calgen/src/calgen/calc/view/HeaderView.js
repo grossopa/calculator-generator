@@ -88,6 +88,7 @@ function HeaderView() {
             <FormControlLabel value={Operator.DIVIDE_VAL} control={<Radio color="primary" />} label="除法" />
             <FormControlLabel value={Operator.DIVIDE_WITH_EXTRA_VAL} control={<Radio color="primary" />} label="除法+余数" />
             <FormControlLabel value={Operator.MULTIPLY_VAL | Operator.DIVIDE_VAL} control={<Radio color="primary" />} label="乘法和除法" />
+            <FormControlLabel value={Operator.ADD_VAL | Operator.MINUS_VAL | Operator.MULTIPLY_VAL | Operator.DIVIDE_VAL} control={<Radio color="primary" />} label="四则运算" />
           </RadioGroup>
         </SettingForm>
 

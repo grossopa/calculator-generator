@@ -13,3 +13,7 @@ export function factorize(num) {
 
   return factors;
 }
+
+export function getLength(number) {
+  return Math.max(Math.floor(Math.log10(Math.abs(number))), 0) + 1;
+};
