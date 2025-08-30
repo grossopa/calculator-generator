@@ -33,10 +33,9 @@ function HowToUseView() {
 
   return <Card sx={{ minWidth: 275 }}>
     <CardContent>
-      <Typography variant="h5" gutterBottom>
-        如何使用
-      </Typography>
+      <Typography variant="h5">如何使用</Typography>
       <HowToUseStepper />
+      <Typography align="right">作者 Jack Yin</Typography>
     </CardContent>
   </Card>
 }

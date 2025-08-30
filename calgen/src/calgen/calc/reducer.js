@@ -8,7 +8,8 @@ export const calcReducers = (state = {
   numberDigits: [1,1],
   count: 50,
   blank: 2,
-  brackets: 0
+  brackets: 0,
+  questions: []
 }, action) => {
     switch (action.type) {
         case Consts.UPDATE_SETTINGS:

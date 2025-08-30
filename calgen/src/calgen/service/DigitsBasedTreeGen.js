@@ -1,19 +1,17 @@
 import TreeFormula from 'calgen/model/TreeFormula';
 import * as Operator from 'calgen/model/Operator';
 import * as Random from 'calgen/util/Random.js';
-import * as MathUtils from 'calgen/util/MathUtils.js';
 import CompositeGen from './generator/CompositeGen';
 import AnswerBasedGen from './generator/AnswerBasedGen';
 
-export default class TreeGen {
+export default class DigitsBasedTreeGen {
 
   answerGen = new AnswerBasedGen();
   generator = new CompositeGen()
 
-  generate = (min, max, round, operators = Operator.values) => {
-    let answer = Random.integer(min, max)
-    let remain = answer
-
+  generate = (numberDigits, round, operators = Operator.values) => {
+    let maxDigits = numberDigits.reduce((acc, n) => Math.max(acc, n), 0);
+    let remain = Random.gracefulDivider(1, Math.pow(10, maxDigits + 1));
     let leafNodes = []
 
     let rootNode = new TreeFormula()
@@ -24,14 +22,10 @@ export default class TreeGen {
       let selectedOperator = Random.select(operators)
       
       var formula
-      if (selectedOperator === Operator.ADD) {
-        formula = this.generator.generateAdd(remain, remain, min)
-      } else if (selectedOperator === Operator.MINUS) {
-        formula = this.generator.generateMinus(remain, remain, max)
-      } else if (selectedOperator === Operator.MULTIPLY) {
+      if (selectedOperator === Operator.MULTIPLY) {
         formula = this.answerGen.generateMultiply(remain, remain);
       } else if (selectedOperator === Operator.DIVIDE) {
-        formula = this.answerGen.generateDivide(remain, remain, Math.pow(10, MathUtils.getLength(max) + 2))
+        formula = this.answerGen.generateDivide(remain, remain, Math.pow(10, numberDigits[i] + 2))
       }
 
       currentNode.formula = formula

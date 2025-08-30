@@ -2,7 +2,6 @@ export function integer(min, max) {
   return parseInt(min + Math.floor(Math.random() * (max - min)))
 }
 
-
 export function gracefulDivider(min = 0, max = GRACEFUL_DIVIDER.length, limitRange = true) {
   if (limitRange) {
     min = Math.min(min, GRACEFUL_DIVIDER.length - 1)
@@ -31,6 +30,17 @@ export function select(arr) {
 export function selectAndRemove(arr) {
   let idx = integer(0, arr.length)
   return {selected : arr[idx], rest: arr.slice(0, idx).concat(arr.slice(idx + 1, arr.length))}
+}
+
+export function selectSubArray(arr) {
+  let removeCount = Math.floor(Math.random() * (arr.length + 1));
+  var result = arr.slice();
+  for (let i = 0; i < removeCount; i++) {
+    var randomIndex = integer(0, result.length - 1);
+    result = result.splice(randomIndex, 1)
+  }
+
+  return result;
 }
 
 let GRACEFUL_DIVIDER = [0, 

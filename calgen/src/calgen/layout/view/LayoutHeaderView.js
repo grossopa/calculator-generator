@@ -25,15 +25,15 @@ function LayoutHeaderView() {
         <IconButton edge="start" color="inherit" aria-label="menu">
           <MenuIcon />
         </IconButton>
-       
+
         <Tabs value={selectedTab} onChange={handleChange} aria-label="simple tabs example"
           sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
           <Tab label="四则运算" value={Consts.TAB_ADDMINUS} />
-          <Tab label="乘法" value={Consts.TAB_MULTIPLY} />
+          { /*<Tab label="乘法" value={Consts.TAB_MULTIPLY} />*/}
         </Tabs>
         <Box sx={{ flexGrow: 1 }} />
         <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-          <Button variant="outlined">{'关于'}</Button>
+          { /*<Button variant="outlined">{'关于'}</Button>*/}
         </Box>
       </Toolbar>
     </AppBar>
