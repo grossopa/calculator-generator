@@ -1,10 +1,10 @@
-import { FormControlLabel, FormLabel, Grid, MenuItem, Radio, RadioGroup, Switch, TextField, Typography } from '@material-ui/core';
-import Select from '@material-ui/core/Select';
+import { FormControlLabel, FormLabel, Grid, MenuItem, Radio, RadioGroup, Switch, TextField, Typography } from '@mui/material';
+import Select from '@mui/material/Select';
 import * as actions from 'calgen/calc/actions';
 import * as Operator from 'calgen/model/Operator';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import './HeaderView.css';
 import HowToUseView from 'calgen/calc/view/HowToUseView';
 
@@ -18,7 +18,7 @@ function OnLoad() {
 
 function HeaderView() {
   const dispatch = useDispatch()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const questionType = useSelector(state => state.calcReducer.questionType)
   let rangeMin = useSelector(state => state.calcReducer.rangeMin)
@@ -58,7 +58,7 @@ function HeaderView() {
 
   const doUpdate = newVal => {
     dispatch(actions.updateSettings(newVal))
-    history.push(actions.getQueryParamsUrl({ ...settings, ...newVal }))
+    navigate(actions.getQueryParamsUrl({ ...settings, ...newVal }))
   }
 
   return (

@@ -1,8 +1,8 @@
-import { Tabs, Tab, Box, Button, Typography } from '@material-ui/core';
-import AppBar from '@material-ui/core/AppBar';
-import IconButton from '@material-ui/core/IconButton';
-import Toolbar from '@material-ui/core/Toolbar';
-import MenuIcon from '@material-ui/icons/Menu';
+import { Tabs, Tab, Box, Button } from '@mui/material';
+import AppBar from '@mui/material/AppBar';
+import IconButton from '@mui/material/IconButton';
+import Toolbar from '@mui/material/Toolbar';
+import MenuIcon from '@mui/icons-material/Menu';
 import React from 'react';
 import './LayoutHeaderView.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,6 +41,3 @@ function LayoutHeaderView() {
 }
 
 export default LayoutHeaderView
-
-
-

@@ -1,5 +1,5 @@
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 import HeaderView from 'calgen/calc/view/HeaderView';
 import QuestionTitleView from 'calgen/calc/view/QuestionTitleView';
 import QuestionView from 'calgen/calc/view/QuestionView';

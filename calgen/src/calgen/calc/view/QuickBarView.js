@@ -1,18 +1,18 @@
 import * as actions from 'calgen/calc/actions';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import './QuickBarView.css';
 
 function QuickBarView() {
 
   const dispatch = useDispatch()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const quickButton = b =>
     <button key={b.label} className='quickbar-btn' onClick={() => {
       dispatch(actions.updateSettings(b.options))
-      history.push(actions.getQueryParamsUrl(b.options))
+      navigate(actions.getQueryParamsUrl(b.options))
       dispatch(actions.generateQuestions(b.options.questionType, b.options.rangeMin, b.options.rangeMax,
         b.options.numberCount, b.options.numberDigits, b.options.count, b.options.blank, b.options.brackets))
     }}>{b.label}</button>

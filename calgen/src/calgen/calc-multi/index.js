@@ -1,4 +1,4 @@
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 import * as Random from 'calgen/util/Random';
 import React, { useState } from 'react';
 
